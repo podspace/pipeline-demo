@@ -1,0 +1,11 @@
+node('maven') {
+  stage 'build-dev'
+    openshiftBuild(namespace: 'pipeline-dev', buildConfig: 'myapp', showBuildLogs: 'true')
+  stage 'deploy-dev'
+    openshiftDeploy(namespace: 'pipeline-dev', deploymentConfig: 'myapp')
+    openshiftScale(namespace: 'pipeline-dev', deploymentConfig: 'myapp',replicaCount: '2')
+  stage 'deploy-test'
+    openshiftTag(namespace: 'pipeline-dev', sourceStream: 'myapp',  sourceTag: 'latest', destinationStream: 'myapp', destinationTag: 'deploy-test')
+    openshiftDeploy(namespace: 'pipeline-test', deploymentConfig: 'myapp')
+    openshiftScale(namespace: 'pipeline-test', deploymentConfig: 'myapp',replicaCount: '3')
+}
