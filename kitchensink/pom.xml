@@ -206,6 +206,12 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
+            <!-- The jmeter-maven-plugin allows us to run JMeter tests from maven -->
+            <plugin>
+              <groupId>com.lazerycode.jmeter</groupId>
+              <artifactId>jmeter-maven-plugin</artifactId>
+              <version>2.0.3</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -283,6 +289,88 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+          <!-- This profile is used for executing the JMeter integration tests from Jenkins
+               for the PodSpace Continuous Delivery pipelines tutorial. -->
+          <id>jenkins</id>
+          <properties>
+            <test.webservice.host>myapp</test.webservice.host>
+            <test.webservice.port>80</test.webservice.port>
+          </properties>
+          <build>
+            <plugins>
+              <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <executions>
+                  <execution>
+                    <id>default-resources</id>
+                    <phase>none</phase>
+                  </execution>
+                  <execution>
+                    <id>default-testResources</id>
+                    <phase>none</phase>
+                  </execution>
+                </executions>
+              </plugin>
+              <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <executions>
+                  <execution>
+                    <id>default-compile</id>
+                    <phase>none</phase>
+                  </execution>
+                  <execution>
+                    <id>default-testCompile</id>
+                    <phase>none</phase>
+                  </execution>
+                </executions>
+              </plugin>
+              <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <executions>
+                  <execution>
+                    <id>default-war</id>
+                    <phase>none</phase>
+                  </execution>
+                </executions>
+              </plugin>
+              <plugin>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <version>${version.surefire.plugin}</version>
+                  <executions>
+                    <execution>
+                      <id>default-test</id>
+                      <phase>none</phase>
+                    </execution>
+                  </executions>
+              </plugin>
+              <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>2.0.3</version>
+                <configuration>
+                  <propertiesUser>
+                    <webservice.host>${test.webservice.host}</webservice.host>
+                    <webservice.port>${test.webservice.port}</webservice.port>
+                  </propertiesUser>
+                </configuration>
+                <executions>
+                  <execution>
+                    <id>jmeter-tests</id>
+                    <phase>verify</phase>
+                    <goals>
+                      <goal>jmeter</goal>
+                    </goals>
+                  </execution>
+                </executions>
+              </plugin>
+            </plugins>
+          </build>
         </profile>
 
     </profiles>
