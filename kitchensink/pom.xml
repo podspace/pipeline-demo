@@ -295,10 +295,6 @@
           <!-- This profile is used for executing the JMeter integration tests from Jenkins
                for the PodSpace Continuous Delivery pipelines tutorial. -->
           <id>jenkins</id>
-          <properties>
-            <test.webservice.host>myapp</test.webservice.host>
-            <test.webservice.port>80</test.webservice.port>
-          </properties>
           <build>
             <plugins>
               <plugin>
