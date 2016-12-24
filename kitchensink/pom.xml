@@ -354,6 +354,7 @@
                     <webservice.host>${test.webservice.host}</webservice.host>
                     <webservice.port>${test.webservice.port}</webservice.port>
                   </propertiesUser>
+                  <ignoreResultFailures>false</ignoreResultFailures>
                 </configuration>
                 <executions>
                   <execution>
