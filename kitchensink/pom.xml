@@ -294,7 +294,10 @@
         <profile>
           <!-- This profile is used for executing the JMeter integration tests from Jenkins
                for the PodSpace Continuous Delivery pipelines tutorial. -->
-          <id>jenkins</id>
+          <id>jmeter</id>
+          <properties>
+            <test.webservice.port>80</test.webservice.port>
+          </properties>
           <build>
             <plugins>
               <plugin>
@@ -354,6 +357,9 @@
                     <webservice.host>${test.webservice.host}</webservice.host>
                     <webservice.port>${test.webservice.port}</webservice.port>
                   </propertiesUser>
+                  <testFilesIncluded>
+                    <jMeterTestFile>*-${test.environment}.jmx</jMeterTestFile>
+                  </testFilesIncluded>
                   <ignoreResultFailures>false</ignoreResultFailures>
                 </configuration>
                 <executions>
