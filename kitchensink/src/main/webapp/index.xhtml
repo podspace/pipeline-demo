@@ -50,6 +50,9 @@
             </h:panelGrid>
 
             <p>
+                <h:commandButton id="register"
+                    action="#{memberController.register}"
+                    value="Register" styleClass="register" />
                 <h:panelGrid columns="2">
                     <h:messages styleClass="messages"
                         errorClass="invalid" infoClass="valid"
