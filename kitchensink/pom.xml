@@ -362,6 +362,7 @@
                   </testFilesIncluded>
                   <ignoreResultFailures>false</ignoreResultFailures>
                   <testResultsTimestamp>false</testResultsTimestamp>
+                  <overrideRootLogLevel>debug</overrideRootLogLevel>
                 </configuration>
                 <executions>
                   <execution>
