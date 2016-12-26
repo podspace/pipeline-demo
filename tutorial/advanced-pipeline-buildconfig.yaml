@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: pipeline
+  labels:
+    name: pipeline
+  annotations:
+    pipeline.alpha.openshift.io/uses: '[{"name": "myapp", "namespace": "", "kind": "DeploymentConfig"}]'
+spec:
+  runPolicy: Serial
+  source:
+    type: None
+  strategy:
+    type: JenkinsPipeline
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        node('maven') {
+          stage('build-on-dev')
+            openshiftBuild(namespace: 'demo-dev', buildConfig: 'myapp', showBuildLogs: 'true')
+          stage('deploy-on-dev')
+            openshiftDeploy(namespace: 'demo-dev', deploymentConfig: 'myapp')
+            openshiftScale(namespace: 'demo-dev',deploymentConfig: 'myapp',replicaCount: '2')
+          stage('run-basic-tests-on-dev')
+            git url: "https://github.com/podspace/pipeline-demo"
+            sh "cd kitchensink && mvn -e -Pjmeter -Dtest.environment=dev -Dtest.webservice.host=myapp-demo-dev.apps.podspace.io verify"
+            step([$class: 'PerformancePublisher', errorFailedThreshold: 10, errorUnstableThreshold: 5, relativeFailedThresholdNegative: 0,
+                 relativeFailedThresholdPositive: 0, relativeUnstableThresholdNegative: 0, relativeUnstableThresholdPositive: 0,
+                 parsers: [[$class: 'JMeterParser', glob: '**/*-dev.jtl']]])
+            if(currentBuild.result == 'FAILURE') {
+              error("JMeter test failed.")
+            } 
+          stage('deploy-on-test')
+            openshiftTag(namespace: 'demo-dev', sourceStream: 'myapp', sourceTag: 'latest', destinationStream: 'myapp', destinationTag: 'latest-test')
+            openshiftDeploy(namespace: 'demo-test', deploymentConfig: 'myapp')
+            openshiftScale(namespace: 'demo-test',deploymentConfig: 'myapp',replicaCount: '2')
+          stage('run-performance-tests-on-test')
+            git url: "https://github.com/podspace/pipeline-demo"
+            sh "cd kitchensink && mvn -e -Pjmeter -Dtest.environment=test -Dtest.webservice.host=myapp-demo-test.apps.podspace.io verify"
+            step([$class: 'PerformancePublisher', errorFailedThreshold: 10, errorUnstableThreshold:5,
+                 relativeFailedThresholdNegative: 0, relativeFailedThresholdPositive: 0, relativeUnstableThresholdNegative: 0,
+                 relativeUnstableThresholdPositive: 0, parsers: [[$class: 'JMeterParser', glob: '**/*-test.jtl']]])
+            echo "Build result: ${currentBuild.result}"
+            if(currentBuild.result == 'FAILURE') {
+              error("JMeter test failed.")
+            }
+          stage('deploy-on-prod')
+            openshiftTag(namespace: 'demo-dev', sourceStream: 'myapp', sourceTag: 'latest', destinationStream: 'myapp', destinationTag: 'latest-prod')
+            openshiftDeploy(namespace: 'demo-prod', deploymentConfig: 'myapp')
+            openshiftScale(namespace: 'demo-prod', deploymentConfig: 'myapp', replicaCount: '4')
+        }
+  output:
+  resources:
+  postCommit:
