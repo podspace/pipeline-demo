@@ -361,6 +361,7 @@
                     <jMeterTestFile>*-${test.environment}.jmx</jMeterTestFile>
                   </testFilesIncluded>
                   <ignoreResultFailures>false</ignoreResultFailures>
+                  <testResultsTimestamp>false</testResultsTimestamp>
                 </configuration>
                 <executions>
                   <execution>
