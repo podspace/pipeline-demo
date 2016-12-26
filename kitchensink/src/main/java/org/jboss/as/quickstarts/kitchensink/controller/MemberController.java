@@ -50,7 +50,7 @@ public class MemberController {
     }
 
     public void makeItSlow() throws Exception {
-      Thread.sleep(100L + (long)(Math.random() * 600));
+      Thread.sleep(5000L + (long)(Math.random() * 600));
     }
 
     public void register() throws Exception {
