@@ -49,9 +49,14 @@ public class MemberController {
         newMember = new Member();
     }
 
+    public void makeItSlow() throws Exception {
+      Thread.sleep((long)(Math.random() * 300));
+    }
+
     public void register() throws Exception {
         try {
             memberRegistration.register(newMember);
+            makeItSlow();
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();
