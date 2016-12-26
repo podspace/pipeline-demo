@@ -33,7 +33,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">1</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">200</stringProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
         <stringProp name="ThreadGroup.ramp_time">30</stringProp>
         <longProp name="ThreadGroup.start_time">1445951091000</longProp>
         <longProp name="ThreadGroup.end_time">1445951091000</longProp>
@@ -123,7 +123,7 @@ vars.put(&quot;phoneNumber&quot;,randomstring);
             <hashTree/>
           </hashTree>
           <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="ConstantTimer.delay">1200</stringProp>
             <stringProp name="RandomTimer.range">500.0</stringProp>
           </GaussianRandomTimer>
           <hashTree/>
@@ -191,7 +191,7 @@ vars.put(&quot;phoneNumber&quot;,randomstring);
           </HTTPSamplerProxy>
           <hashTree/>
           <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">1000</stringProp>
+            <stringProp name="ConstantTimer.delay">1300</stringProp>
             <stringProp name="RandomTimer.range">500.0</stringProp>
           </GaussianRandomTimer>
           <hashTree/>
