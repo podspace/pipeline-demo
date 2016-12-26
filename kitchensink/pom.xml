@@ -357,12 +357,21 @@
                     <webservice.host>${test.webservice.host}</webservice.host>
                     <webservice.port>${test.webservice.port}</webservice.port>
                   </propertiesUser>
+                  <propertiesJMeter>
+                    <log_file></log_file>
+                  </propertiesJMeter>
                   <testFilesIncluded>
                     <jMeterTestFile>*-${test.environment}.jmx</jMeterTestFile>
                   </testFilesIncluded>
                   <ignoreResultFailures>false</ignoreResultFailures>
                   <testResultsTimestamp>false</testResultsTimestamp>
+                  <!--
                   <overrideRootLogLevel>debug</overrideRootLogLevel>
+                  -->
+                  <jMeterProcessJVMSettings>
+                    <xms>768</xms>
+                    <xmx>1024</xmx>
+                  </jMeterProcessJVMSettings>
                 </configuration>
                 <executions>
                   <execution>
