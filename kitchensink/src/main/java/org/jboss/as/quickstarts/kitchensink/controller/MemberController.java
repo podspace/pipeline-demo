@@ -57,8 +57,8 @@ public class MemberController {
         try {
             memberRegistration.register(newMember);
             /* PodSpace Pipeline demo: uncomment the following line to make member registration slower
-            makeItSlow();
             */
+            makeItSlow();
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();

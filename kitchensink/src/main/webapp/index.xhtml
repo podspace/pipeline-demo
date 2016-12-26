@@ -21,7 +21,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-      <h1>Welcome to WildFly! Change v1: Remove the button</h1>
+      <h1>Welcome to WildFly! Change v2: Make it slow</h1>
 
         <div>
             <p>You have successfully deployed a Java EE 7 Enterprise
@@ -50,7 +50,7 @@
             </h:panelGrid>
 
             <p>
-                <h:message id="register"
+                <h:commandButton id="register"
                     action="#{memberController.register}"
                     value="Register" styleClass="register" />
                 <h:panelGrid columns="2">
